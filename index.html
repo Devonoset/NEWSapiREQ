@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
+    />
+    <link rel="stylesheet" href="style.css">
+        
+    <title>NEWS(API)</title>
+    
+        <label for="">News</label>
+        <input class="input" type="text">
+        <button onclick="makeGETRequest()">GO</button>
+    
+</head>
+
+<body>
+   
+        
+    </form>
+    <div class="container">
+        
+
+        <ul class="news-list"></ul>
+
+          
+    </div>
+    <script>
+        
+        const input = document.querySelector('.input');
+        const newsList = document.querySelector('.news-list');
+
+        console.log(newsList)
+
+       
+
+        function makeGETRequest(e) {
+
+            newsList.innerHTML = ''
+
+           
+
+            const topic = input.value;
+
+            console.log(topic)
+
+            const url = "https://rapidapi.p.rapidapi.com/api/search/NewsSearchAPI?pageSize=10&q=" + topic + "&autoCorrect=true&pageNumber=1&toPublishedDate=null&fromPublishedDate=null"
+            const options = {
+                method: 'GET',
+                headers: {
+                    "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+                    "X-RapidAPI-Key": "106720baf0mshee15fcf371879f6p1f7901jsne2014d089337"
+                },
+            }
+
+            fetch(url, options)
+                .then(response => response.json())
+                .then((data) =>{
+                    console.log(data)
+                    data.value.forEach(value => {
+                        let li = document.createElement('li');
+                        let a = document.createElement('a');
+                        a.setAttribute('href', value.url);
+                        a.setAttribute('target', '_blank');
+                        a.textContent = value.title;
+                        li.appendChild(a);
+                        newsList.appendChild(li);
+                        
+                    });
+                        
+                })
+                .catch(e => console.error(e))
+        }
+    </script>
+</body>
+
+</html>
